@@ -1,33 +1,44 @@
 import os
-
 from pydantic_settings import BaseSettings
 
 env = os.getenv("PYTHON_ENV")
 
+_env_files: tuple = (
+    f'.env{f".{env}" if env else ""}',
+    f'./api/.env{f".{env}" if env else ""}',
+)
 
-class GlobalSettings(BaseSettings):
-    class Config:
-        env_file: tuple = (
-            f'.env{f".{env}" if env else ""}',
-            f'./api/.env{f".{env}" if env else ""}')
-        extra: str = 'allow'
 
-class DbSettings(GlobalSettings):
+class DbSettings(BaseSettings):
+    model_config = {"env_file": _env_files, "extra": "allow"}
+
     db_driver: str
     db_server: str
     db_name: str
     db_user: str
     db_password: str
-    url: str = ''
+    db_port: int
 
-class Ports(GlobalSettings):
+
+class Ports(BaseSettings):
+    model_config = {"env_file": _env_files, "extra": "allow"}
+
     api_port: int
     db_port: int
 
-class Settings(GlobalSettings):
+
+class Settings(BaseSettings):
+    model_config = {"env_file": _env_files, "extra": "allow"}
+
     ports: Ports = Ports()
-    db_settings: DbSettings = DbSettings()
+    db: DbSettings = DbSettings()
+
+    @property
+    def db_url(self) -> str:
+        return (
+            f"{self.db.db_driver}://{self.db.db_user}:{self.db.db_password}"
+            f"@{self.db.db_server}:{self.db.db_port}/{self.db.db_name}"
+        )
+
 
 settings = Settings()
-db_settings = settings.db_settings
-settings.db_settings.url = f'{db_settings.db_driver}://{db_settings.db_user}:{db_settings.db_password}@{db_settings.db_server}:{settings.db_port}/{db_settings.db_name}'

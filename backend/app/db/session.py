@@ -1,14 +1,15 @@
-from typing import Any, AsyncGenerator
+from typing import AsyncGenerator, Any
 
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_sessionmaker,
     create_async_engine,
 )
-from ..settings import settings
+
+from backend.app.settings import settings
 
 engine = create_async_engine(
-    settings.db_settings.url,
+    settings.db_url,
     pool_size=10,
     max_overflow=5,
     echo=False,
