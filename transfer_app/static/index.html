@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 NFT Synergy Analyzer</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">⚙️</button>
+            
+            <div class="sidebar-content" id="sidebar-content">
+                <div class="section">
+                <label for="wallets-input">Wallet Addresses (one per line):</label>
+                <textarea id="wallets-input" rows="6" placeholder="UQCEHDajlFofYOt4VYGaPeaPhAIyFNJBHvJXGnDU4dUWx1-Z"></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button id="load-btn" class="btn btn-primary">📥 Load NFTs</button>
+                <button id="clear-btn" class="btn btn-danger">🗑️ Clear DB</button>
+            </div>
+            
+            <div id="progress-container" class="progress-container" style="display: none;">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <p id="progress-text" class="progress-text">Loading...</p>
+            </div>
+            
+            <hr>
+            
+            <div class="statistics" id="statistics" style="display: none;">
+                <h3>📊 Loaded Statistics</h3>
+                <div class="stat">
+                    <span class="stat-label">Total Stickers:</span>
+                    <span id="total-stickers" class="stat-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Total Wallets:</span>
+                    <span id="total-wallets" class="stat-value">0</span>
+                </div>
+            </div>
+            </div>
+        </aside>
+        
+        <!-- Main content -->
+        <main class="main-content">
+            <div class="header">
+                <h1>🎨 NFT Synergy Analyzer</h1>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="synergies">🔥 Synergies</button>
+                <button class="tab-btn" data-tab="portfolio">💼 Portfolio</button>
+                <button class="tab-btn" data-tab="basket">🛒 Exchange Basket</button>
+                <button class="tab-btn" data-tab="help">ℹ️ Help</button> <!-- exchange distribution moved inside basket tab -->
+            </div>
+            
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Synergies Tab -->
+                <div id="synergies" class="tab-pane active">
+                    <h2>Synergy Analyzer</h2>
+                    
+                    <div id="loading-message" class="info-message">
+                        👈 Enter wallet addresses in the sidebar and click 'Load NFTs' to get started!
+                    </div>
+                    
+                    <div id="synergy-content" style="display: none;">
+                        <!-- Wallet stats (stickers / teams / power) -->
+                        <div id="synergy-stats" class="wallet-stats" style="margin-bottom:12px;"></div>
+                        <!-- Filters -->
+                        <div id="synergy-filters" class="filters">
+                            <!-- Priority wallet selector, skin and group filters will be injected here -->
+                            <div id="priority-container" style="margin-bottom:8px;"></div>
+                            <div class="button-grid" id="skins-container"></div>
+                            <div class="button-grid" id="groups-container"></div>
+                        </div>
+                        
+                        <div id="selection-message" class="info-message" style="display: none;">
+                            👆 Select skin tone and attribute group to continue
+                        </div>
+                        
+                        <!-- Results -->
+                        <div id="synergy-results" style="display: none;">
+                            <div id="results-header" class="results-header"></div>
+                            <div id="synergy-list" class="synergy-list"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Tab -->
+                <div id="portfolio" class="tab-pane">
+                    <h2>💼 Портфолио</h2>
+                    <!-- summary stats table for all wallets -->
+                    <div id="portfolio-stats" class="wallet-stats" style="margin-bottom:12px;"></div>
+                    <div id="wallet-selector" class="wallet-selector">
+                        <!-- Wallet buttons rendered by JS -->
+                    </div>
+                    <div id="portfolio-content">
+                        <!-- Portfolio content rendered by JS -->
+                    </div>
+                </div>
+                
+                <!-- Exchange Basket Tab -->
+                <div id="basket" class="tab-pane">
+                    <h2>🛒 Корзина обмена</h2>
+                    <!-- inner tabs for original wallets vs distribution -->
+                    <div class="inner-tabs" style="margin-top:8px;">
+                        <button class="inner-tab-btn active" data-inner-tab="basket-orig">Исходные кошельки</button>
+                        <button class="inner-tab-btn" data-inner-tab="basket-exchange">Адресаты</button>
+                        <button class="inner-tab-btn" data-inner-tab="basket-new-portfolio">Новый портфель</button>
+                    </div>
+                    <div class="inner-tab-content">
+                        <div id="basket-orig" class="inner-tab-pane active">
+                            <div id="basket-empty" class="info-message">
+                                В корзине ещё нет стикеров. Нажмите «+» на карточке синергии, чтобы добавить!
+                            </div>
+                            <!-- Actions visible always -->
+                            <div class="basket-actions" style="margin-top:8px;">
+                                <button id="basket-clear-btn" class="btn btn-danger">Очистить корзину</button>
+                                <button id="basket-export-btn" class="btn btn-primary">📊 Экспорт</button>
+                                <label class="btn btn-secondary" for="basket-import-input" style="margin-left:8px;">📥 Импорт</label>
+                                <input id="basket-import-input" type="file" accept="application/json" style="display:none;" />
+                            </div>
+                            <div id="basket-content" style="display: none;">
+                                <div id="basket-stats" style="margin-bottom:16px;">
+                                    <!-- Stats table will be injected here -->
+                                </div>
+                                <div id="basket-items" class="basket-items"></div>
+                            </div>
+                        </div>
+                        <div id="basket-exchange" class="inner-tab-pane">
+                            <h3>Адресаты</h3>
+                            <div class="info-message" style="margin-bottom:8px;">Стикеры сгруппированы по адресатам, куда они должны быть отправлены</div>
+                            <div id="exchange-baskets-container">
+                                <!-- Стикеры сгруппированные по адресатам будут добавляться динамически JS -->
+                            </div>
+                        </div>
+                        <div id="basket-new-portfolio" class="inner-tab-pane">
+                            <h3>Результат портфеля</h3>
+                            <!-- stats table for new portfolio will be injected here -->
+                            <div id="new-portfolio-stats" class="wallet-stats" style="margin-bottom:12px;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Help Tab -->
+                <div id="help" class="tab-pane">
+                    <h2>ℹ️ Help & Information</h2>
+                    <div class="help-content">
+                        <h3>How to Use</h3>
+                        
+                        <h4>1. Load NFTs</h4>
+                        <ul>
+                            <li>Paste wallet addresses in the sidebar (one per line)</li>
+                            <li>Click "Load NFTs into Database" to fetch and store your collection</li>
+                        </ul>
+                        
+                        <h4>2. Analyze Synergies</h4>
+                        <ul>
+                            <li>Select a skin tone, attribute group, and optionally a wallet filter</li>
+                            <li>View synergies grouped by attribute value and rows</li>
+                            <li>🔥 indicates synergies that meet the threshold</li>
+                            <li>Stickers are selected to maximize diversity and value</li>
+                        </ul>
+                        
+                        <h4>3. Database</h4>
+                        <ul>
+                            <li>Data is stored in SQLite after loading</li>
+                            <li>Subsequent loads update existing stickers by address</li>
+                            <li>Use "Clear Database" to start fresh</li>
+                        </ul>
+                        
+                        <h4>4. Exchange Basket</h4>
+                        <ul>
+                            <li>The <strong>🛒 Exchange Basket</strong> tab contains two sub‑sections:</li>
+                            <ul>
+                                <li><em>Исходные кошельки</em> – показывает, из каких кошельков вы добавили стикеры.</li>
+                                <li><em>Распределение обмена</em> – здесь располагаются сами корзины для обмена: один пул + по одной корзине на каждый кошелёк.</li>
+                            </ul>
+                            <li>Добавляйте стикеры в корзину, они попадут в пул и автоматически исключатся из портфолио.</li>
+                            <li>В разделе распределения перетаскивайте карточки между корзинами, чтобы моделировать обмены; портфолио будет пересчитано по выбранному цвету, а рядом с каждой корзиной отобразится разница в PWR.</li>
+                            <li>Во вкладке «Новый портфель» показывается итоговое состояние каждого кошелька после обмена: команды, силы и изменения по сравнению с исходным портфелем.</li>
+                        </ul>
+                        <h4>5. Sticker Values</h4>
+                        <p>The scoring system is based on:</p>
+                        <ul>
+                            <li><strong>Mythic+</strong>: 1000 points</li>
+                            <li><strong>Mythic</strong>: 500 points</li>
+                            <li><strong>Legendary</strong>: 200 points</li>
+                            <li><strong>Epic</strong>: 140 points</li>
+                            <li><strong>Rare</strong>: 80 points</li>
+                        </ul>
+                        <p>Plus additional bonuses from synergies and name patterns.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+        <!-- ES6 modular architecture (all logic migrated from app.js) -->
+            <script src="/static/js/main_monolith.js"></script>
+</body>
+</html>

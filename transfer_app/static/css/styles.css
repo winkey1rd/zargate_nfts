@@ -1,0 +1,1109 @@
+/* Unified Dark Streamlit Theme */
+:root {
+    --accent-cyan: #00d4ff;
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    --bg: #0f1419;
+    --surface: #0f1724;
+    --muted: #9be7ff;
+    --text: #e6f3ff;
+    --border: rgba(255,255,255,0.04);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 60px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-right: 1px solid rgba(255,255,255,0.03);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    transition: width 0.3s ease;
+}
+
+.sidebar.expanded {
+    width: 427px;
+    overflow-y: auto;
+}
+
+.sidebar-toggle-btn {
+    font-size: 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 8px;
+    margin: -8px;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.sidebar-toggle-btn:hover {
+    opacity: 0.8;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: opacity 0.2s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar.expanded .sidebar-content {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.section label {
+    color: var(--muted);
+    font-size: 13px;
+    display: block;
+    font-weight: 500;
+}
+
+.section textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: var(--text);
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    resize: vertical;
+}
+
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.btn {
+    padding: 12px 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    color: #fff;
+}
+
+.btn-danger {
+    background: linear-gradient(90deg, #ff6b6b, #ef4444);
+    color: #fff;
+}
+
+.progress-container {
+    margin-top: 6px;
+}
+
+.progress-bar {
+    height: 8px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-cyan), #4db8ff);
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.statistics {
+    color: var(--muted);
+    padding: 8px;
+    font-size: 12px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+}
+
+.stat-label {
+    font-size: 12px;
+}
+
+.stat-value {
+    font-weight: 700;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.02);
+    margin: 8px 0;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.header {
+    padding: 20px 26px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.header h1 {
+    font-size: 22px;
+    color: var(--text);
+}
+
+/* TABS */
+.tabs {
+    display: flex;
+    gap: 12px;
+    padding: 12px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+    background: transparent;
+}
+
+/* inner tabs used inside basket view */
+.inner-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+/* filter button helpers */
+.filter-btn {
+    margin: 2px;
+    padding: 4px 8px;
+    border: 1px solid #888;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+/* synergy collapse/expand styling */
+.synergy-section {
+    margin-bottom: 14px;
+}
+
+.synergy-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.collapse-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.collapse-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.synergy-content-wrapper.collapsed {
+    display: none;
+}
+
+/* ensure select elements styled like filter buttons when given the class */
+select.filter-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 20px; /* space for dropdown arrow */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'6'%20viewBox%3D'0%200%2010%206'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M0%200l5%206%205-6z'%20fill%3D'%23666'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    /* smaller font to match compact buttons */
+    font-size: 0.85em;
+    background-color: #222;
+    color: #fff;
+    border-color: #444;
+}
+
+select.filter-btn option {
+    background-color: #333;
+    color: #fff;
+}
+
+#priority-wallet-select {
+    min-width: 140px; /* narrower dropdown */
+}
+
+/* wallet stats table shown above filters in synergy tab */
+.wallet-stats-table {
+    width: 100%;
+    font-size: 12px;
+    color: var(--text);
+    border-collapse: collapse;
+    margin-bottom: 8px;
+}
+.wallet-stats-table th,
+.wallet-stats-table td {
+    padding: 4px 6px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.wallet-stats-table th {
+    background: rgba(255,255,255,0.05);
+    color: var(--muted);
+    text-align: left;
+}
+.wallet-stats-table tr {
+    background: rgba(255,255,255,0.02) !important;
+}
+.wallet-stats-table td {
+    background: transparent !important; /* inherit from row */
+}
+.wallet-stats-table th {
+    background: rgba(255,255,255,0.05) !important;
+}
+.wallet-stats-table {
+    background: rgba(255,255,255,0.02) !important; /* ensure entire table has consistent colour */
+}
+.table-small {
+    font-size: 11px;
+}
+.filter-btn.active {
+    background-color: #9be7ff;
+    border-color: #6bbcd3;
+}
+
+.wallet-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+}
+.wallet-stats-table th,
+.wallet-stats-table td {
+    border: 1px solid #ccc;
+    padding: 4px 6px;
+    text-align: center;
+}
+.wallet-stats-table th {
+    background-color: #e0e0e0;
+}
+
+.inner-tab-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    padding: 8px 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.inner-tab-btn:hover {
+    color: rgba(255,255,255,0.8);
+}
+
+.inner-tab-btn.active {
+    color: #fff;
+    border-bottom-color: var(--accent-cyan);
+}
+/* inner tabs used within the basket view */
+.inner-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+/* exchange basket styling */
+.exchange-basket {
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 6px;
+    padding: 8px;
+    margin: 4px;
+    min-width: 140px;
+    background: rgba(15,20,25,0.4);
+}
+.exchange-basket .basket-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    white-space: nowrap;
+}
+.exchange-basket .basket-stickers {
+    min-height: 160px;
+}
+.exchange-basket .basket-empty-msg {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    padding-top: 20px;
+}
+.inner-tab-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    padding: 8px 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+.inner-tab-btn:hover {
+    color: rgba(255,255,255,0.8);
+}
+.inner-tab-btn.active {
+    color: #fff;
+    border-bottom-color: var(--accent-cyan);
+}
+.inner-tab-pane {
+    display: none;
+}
+.inner-tab-pane.active {
+    display: block;
+}
+.inner-tab-pane {
+    display: none;
+}
+
+.inner-tab-pane.active {
+    display: block;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    padding: 10px 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.tab-btn:hover {
+    color: rgba(255,255,255,0.8);
+}
+
+.tab-btn.active {
+    color: var(--accent-cyan);
+    border-bottom-color: var(--accent-cyan);
+}
+
+/* portfolio wallet selector buttons should match filter-btn appearance */
+.wallet-selector-btn {
+    margin: 2px;
+    /* filter-btn provides padding, border, background, transition, etc. */
+}
+.wallet-selector-btn:hover {
+    /* same hover as filter-btn */
+    border-color: rgba(255,255,255,0.12);
+}
+/* active styling comes from .filter-btn.active (gradient + white text) */
+
+/* color variants – highlight using border for visibility over gradient */
+.wallet-selector-btn.wallet-color-1 { border-color: rgba(59,130,246,0.6); }
+.wallet-selector-btn.wallet-color-2 { border-color: rgba(147,51,234,0.6); }
+.wallet-selector-btn.wallet-color-3 { border-color: rgba(34,197,94,0.6); }
+.wallet-selector-btn.wallet-color-4 { border-color: rgba(249,115,22,0.6); }
+.wallet-selector-btn.wallet-color-5 { border-color: rgba(6,182,212,0.6); }
+
+/* recipient dropdown in basket */
+.recipient-menu {
+    min-width: 120px;
+}
+.recipient-menu div:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* TAB PANES - CRITICAL FIX */
+.tab-content {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.tab-pane {
+    display: none !important;
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.tab-pane.active {
+    display: block !important;
+}
+
+.tab-pane h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+    color: var(--text);
+}
+
+/* FILTERS */
+.filters {
+    /* compact flex layout */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;               /* less space between items */
+    padding: 8px 10px;      /* slimmer padding */
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+.filter-group h3 {
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.button-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    /* ensure items only take needed width, no automatic expansion */
+    justify-content: flex-start;
+}
+
+.button-grid .filter-btn {
+    /* remove full width so buttons size to content */
+    width: auto;
+}
+
+.filter-btn {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    border-color: rgba(255,255,255,0.12);
+}
+
+.filter-btn.active {
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    color: #fff;
+    border-color: transparent;
+}
+
+/* SYNERGIES */
+.results-header {
+    font-size: 14px;
+    color: var(--accent-cyan);
+    margin-bottom: 16px;
+}
+
+/* rest of file copied from streamlit_style.css (sticker card styles, wallet groups, basket, etc.) */
+
+/* SYNERGY LIST AND STICKER CARD RULES */
+.synergy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.synergy-section {
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #1a2332 0%, #0f1419 100%);
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid #4db8ff;
+}
+
+.synergy-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.synergy-icon {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.synergy-count {
+    color: #4db8ff;
+    font-weight: 700;
+}
+
+.stickers-scroll-row {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 8px 0;
+    border-radius: 8px;
+}
+
+.wallet-group {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: fit-content;
+    padding: 6px;
+    border-radius: 10px;
+}
+
+.wallet-group.wallet-color-1 {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.05));
+}
+
+.wallet-group.wallet-color-2 {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.08), rgba(126, 34, 206, 0.05));
+}
+
+.wallet-group.wallet-color-3 {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(22, 163, 74, 0.05));
+}
+
+.wallet-group.wallet-color-4 {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.08), rgba(234, 88, 12, 0.05));
+}
+
+.wallet-group.wallet-color-5 {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(14, 165, 233, 0.05));
+}
+
+.wallet-header-bar {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.wallet-cards-inner {
+    display: flex;
+    gap: 32px;
+}
+
+.sticker-card {
+    background: linear-gradient(135deg, #1e2937 0%, #162031 100%);
+    border: 1px solid rgba(77, 184, 255, 0.15);
+    padding: 14px;
+    border-radius: 14px;
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    /* allow to grow to fit content */
+    height: auto;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+/* empty placeholder card (used in portfolio teams) should match the size of a normal sticker */
+.sticker-card.empty-card {
+    /* inherit dimensions from .sticker-card */
+    background: rgba(15,20,25,0.6);
+    border: 1px solid rgba(77, 184, 255, 0.05);
+    color: #666;
+    font-size: 18px;
+    /* other layout is handled inline when created */
+}
+
+.sticker-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 0 8px 24px rgba(77, 184, 255, 0.15);
+}
+
+.sticker-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 10;
+}
+
+.basket-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 150, 200, 0.05));
+    color: var(--accent-cyan);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.basket-btn:hover {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 150, 200, 0.1));
+    border-color: rgba(0, 212, 255, 0.6);
+    transform: scale(1.05);
+}
+
+.basket-btn.active {
+    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    border-color: var(--accent-cyan);
+    color: #000;
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
+}
+
+.badge-mythic-plus {
+    background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.badge-mythic {
+    background: linear-gradient(135deg, #ff66b2 0%, #ff4da6 100%); /* pink variant */
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* badges used for synergy labels (same look as rarity) */
+.synergy-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    /* height/line-height removed to auto-size */
+    box-sizing: border-box;
+    /* width removed to shrink-to-content */
+    position: relative; /* ensure flow layout */
+    top: auto;
+    right: auto;
+}
+
+
+.badge-legendary {
+    background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
+    color: #1f2937;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.badge-epic {
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.badge-rare {
+    background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.badge-synergy {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #000;
+}
+
+.badge-partial {
+    background: linear-gradient(135deg, #4db8ff 0%, #00a8ff 100%);
+    color: #fff;
+}
+
+.badge-none {
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+}
+
+.sticker-card img {
+    width: 100%;
+    height: 170px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin: 8px 0 6px 0;
+}
+
+.emotion-tag {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    background: linear-gradient(135deg, #0a3a4d 0%, #082d3a 100%);
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: block;
+    text-align: center;
+    width: 100%;
+    margin: 6px 0;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.sticker-title {
+    font-weight: 700;
+    color: var(--text);
+    font-size: 14px;
+    margin: 6px 0 10px;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.sticker-value {
+    font-size: 13px;
+    color: var(--muted);
+    background: rgba(77, 184, 255, 0.10);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(77, 184, 255, 0.15);
+    line-height: 1.6;
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+}
+
+.sticker-value div {
+    margin: 2px 0;
+}
+
+/* MESSAGES */
+.info-message {
+    background: rgba(77, 184, 255, 0.08);
+    border-left: 4px solid var(--accent-cyan);
+    padding: 12px 16px;
+    border-radius: 6px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+
+/* HELP CONTENT */
+.help-content {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding: 20px;
+    border-radius: 10px;
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+.help-content h3 {
+    font-size: 16px;
+    margin: 16px 0 10px 0;
+    color: var(--text);
+}
+
+.help-content h4 {
+    font-size: 13px;
+    margin: 12px 0 6px 0;
+    color: var(--accent-cyan);
+}
+
+.help-content ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.help-content li {
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 4px;
+}
+
+.help-content li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-cyan);
+    font-weight: bold;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .filters {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        width: 280px;
+    }
+    
+    .button-group {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .button-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        max-height: 150px;
+    }
+    
+    .button-group {
+        grid-template-columns: 1fr;
+    }
+
+    .button-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* BASKET */
+.basket-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.basket-item {
+    background: linear-gradient(135deg, #1e2937 0%, #162031 100%);
+    border: 2px solid var(--accent-cyan);
+    border-radius: 10px;
+    padding: 8px;
+    position: relative;
+    text-align: center;
+}
+
+.basket-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+
+.basket-item-name {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.basket-item-emotion {
+    font-size: 11px;
+    color: var(--accent-cyan);
+    margin-bottom: 4px;
+}
+
+.basket-item-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fbbf24;
+}
+
+.basket-item-remove {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 24px;
+    height: 24px;
+    background: rgba(239, 68, 68, 0.8);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.basket-item-remove:hover {
+    background: #ef4444;
+    transform: scale(1.1);
+}
+
+.basket-actions {
+    display: flex;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Message notifications */
+.message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.message-success {
+    background-color: #4caf50;
+    color: white;
+}
+
+.message-error {
+    background-color: #f44336;
+    color: white;
+}
+
+.message-warning {
+    background-color: #ff9800;
+    color: white;
+}
+
+.message-info {
+    background-color: #2196f3;
+    color: white;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+/* Empty state styling */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--muted);
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+    margin: 20px;
+}
+
+.empty-state p {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.empty-state p:first-child {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.empty-state strong {
+    color: var(--accent-cyan);
+    font-weight: 600;
+}
