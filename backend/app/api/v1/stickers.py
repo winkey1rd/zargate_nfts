@@ -1,55 +1,52 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.app.crud.sticker_crud import StickerRepository
+from backend.app.crud.sticker_repository import StickerRepository
 from backend.app.models import AttributeORM
-
-from utility.session import get_session
+from backend.app.schemas.sticker import StickerResponse, StickerSchema, StickerValuesSchema
+from backend.utility import get_session
 
 stickers_router = APIRouter(prefix="/stickers", tags=["stickers"])
 
 
-@stickers_router.get("/{address}")
+def _attr_to_pair(attr: AttributeORM | None) -> dict:
+    if not attr:
+        return {}
+    return {attr.trait_type: attr.value}
+
+
+@stickers_router.get("/{address}", response_model=StickerResponse)
 async def get_sticker(
-        address: str,
-        session: AsyncSession = Depends(get_session),
-):
-    sticker_rep = StickerRepository(session)
-    nft = await sticker_rep.get_sticker_full_info(address)
+    address: str,
+    session: AsyncSession = Depends(get_session),
+) -> StickerResponse:
+    repo = StickerRepository(session)
+    nft = await repo.get_full_info(address)
 
     if not nft:
         raise HTTPException(status_code=404, detail="NFT not found")
 
-    sticker = nft.stickers[0] if nft.stickers else None
+    sticker_orm = nft.stickers[0] if nft.stickers else None
 
-    def attr_to_pair(attr: AttributeORM | None):
-        if not attr:
-            return {}
-        return {attr.trait_type: attr.value}
+    attributes: dict[str, str] = {}
+    sticker_schema = None
+    values_schema = None
 
-    attributes = {}
-    if sticker:
+    if sticker_orm:
         attributes = {
-            **attr_to_pair(sticker.attr1),
-            **attr_to_pair(sticker.attr2),
-            **attr_to_pair(sticker.attr3),
-            **attr_to_pair(sticker.attr4),
+            **_attr_to_pair(sticker_orm.attr1),
+            **_attr_to_pair(sticker_orm.attr2),
+            **_attr_to_pair(sticker_orm.attr3),
+            **_attr_to_pair(sticker_orm.attr4),
         }
+        sticker_schema = StickerSchema.model_validate(sticker_orm)
+        values_schema = StickerValuesSchema.model_validate(sticker_orm)
 
-    return {
-        "address": nft.address,
-        "name": nft.name,
-        "owner": nft.owner_wallet_address,
-
-        "emotion": sticker.emotion if sticker else None,
-
-        "attributes": attributes,
-
-        "num_features": sticker.num_features if sticker else None,
-        "sticker_synergy": sticker.sticker_synergy if sticker else None,
-
-        "attr_value": sticker.attr_value if sticker else None,
-        "synergy_bonus": sticker.synergy_bonus if sticker else None,
-        "name_value": sticker.name_value if sticker else None,
-        "total_value": sticker.total_value if sticker else None,
-    }
+    return StickerResponse(
+        address=nft.address,
+        name=nft.name,
+        owner=nft.owner_wallet_address,
+        sticker=sticker_schema,
+        attributes=attributes,
+        values=values_schema,
+    )
