@@ -1,4 +1,4 @@
-from nft.config import ATTRIBUTE_GROUPS, EMOTIONS
+from backend.nft.config import ATTRIBUTE_GROUPS, EMOTIONS
 from backend.utility.converter import get_key_by_values
 
 

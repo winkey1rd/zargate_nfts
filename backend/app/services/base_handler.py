@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime
 import logging
 
-from nft.config import COLLECTIONS, COLLECTIONS_BY_ADDRESS
+from backend.nft.config import COLLECTIONS, COLLECTIONS_BY_ADDRESS
 from backend.app.models import OpeningORM, NftBaseORM
 from backend.app.crud.nft_repository import NftRepository
 

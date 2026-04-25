@@ -1,10 +1,10 @@
 import json
 import re
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Tuple
 import os
 import unicodedata
 
-from nft.config import anagram, LOGO_EQUIV
+from backend.nft.config import anagram, LOGO_EQUIV
 
 
 def normalize_value(value: str):
