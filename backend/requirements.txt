@@ -1,0 +1,7 @@
+tonsdk
+SQLAlchemy
+tqdm
+aiogram
+requests
+aiohttp
+python-dotenv
