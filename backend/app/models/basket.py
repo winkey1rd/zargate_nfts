@@ -6,7 +6,7 @@ from sqlalchemy.dialects.postgresql import TEXT
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from datetime import datetime
 
-from old.database import Base
+from backend.app.db.base import Base
 
 
 class BasketItem(Base):

@@ -8,7 +8,7 @@ from sqlalchemy.dialects.postgresql import JSONB, BYTEA, TEXT, ARRAY
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from datetime import datetime
 
-from old.database import Base
+from backend.app.db.base import Base
 
 
 class NftCollectionORM(Base):
@@ -50,12 +50,13 @@ class NftBaseORM(Base):
     sticker_boxes = relationship("StickerBoxORM", back_populates="nft")
     stickers = relationship("StickerORM", back_populates="nft")
     openings = relationship("OpeningORM", foreign_keys="OpeningORM.nft_address", back_populates="nft")
+    box_openings = relationship("OpeningORM", foreign_keys="OpeningORM.box_address", back_populates="box")
 
     __table_args__ = (
         Index('idx_nfts_collection_owner', 'collection_address', 'owner_wallet_address'),
     )
 
-class GiftBoxORM(NftBaseORM):
+class GiftBoxORM(Base):
     """GiftBox model."""
     __tablename__ = 'gift_boxes'
 

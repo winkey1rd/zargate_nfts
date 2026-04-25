@@ -1,5 +1,4 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import Session
 import logging
 
 from nft.config import COLLECTIONS, COLLECTIONS_BY_ADDRESS
@@ -16,7 +15,7 @@ from .boxes_handler import BoxesCollectionHandler
 logger = logging.getLogger(__name__)
 
 
-async def populate_collections(session: Session):
+async def populate_collections(session: AsyncSession):
     """Внести коллекции в БД."""
     for name, info in COLLECTIONS.items():
         collection = NftCollectionORM(address=info.get("address"), name=name)

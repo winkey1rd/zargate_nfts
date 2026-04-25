@@ -1,4 +1,6 @@
 from typing import Optional
+
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.app.models import NftBaseORM, AttributeORM, OpeningORM
@@ -10,9 +12,9 @@ class NftRepository:
         self.session = session
 
     async def get_nft_by_address(self, address: str) -> Optional[NftBaseORM]:
-        return self.session.query(NftBaseORM).filter_by(
-            address=address
-        ).first()
+        stmt = select(NftBaseORM).where(NftBaseORM.address == address)
+        result = await self.session.execute(stmt)
+        return result.scalar_one_or_none()
 
     def get_attributes_by_value(
         self,
