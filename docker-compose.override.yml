@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    env_file: .env
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+
+  nginx:
+    image: nginx:alpine
+    ports: ["80:80", "443:443"]
+    depends_on: [backend, frontend, tma]
+    volumes: [./nginx:/etc/nginx/conf.d, ./certs:/etc/letsencrypt]
+
+  backend:
+    build: api
+    env_file: .env
+    depends_on: [postgres, redis]
+    # НЕ открывает порты — только через nginx
+
+  bot:
+    build: ./bot
+    env_file: .env
+    depends_on: [postgres]
+
+  fetcher:
+    build: ./fetcher
+    env_file: .env
+    depends_on: [postgres]
+    # interval и retry задаются в .env / config
+
+  monitor:
+    build: ./monitor
+    env_file: .env
+    depends_on: [postgres]
+    # независим от api, только читает БД + пишет snapshots
+
+  frontend:
+    build: ./frontend
+    # nginx отдаёт статику
+
+  tma:
+    build: ./tma
+    # nginx отдаёт статику на отдельном пути /tma/
+
+volumes:
+  postgres_data:

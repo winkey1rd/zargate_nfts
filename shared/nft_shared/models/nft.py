@@ -51,16 +51,16 @@ class NftBaseORM(Base):
     collection = relationship("NftCollectionORM", back_populates="nfts")
     basket_items = relationship("BasketItem", back_populates="sticker")
     trade_items = relationship("TradeItem", back_populates="sticker")
-    gift_boxes = relationship("GiftBoxORM", back_populates="nft")
-    sticker_boxes = relationship("StickerBoxORM", back_populates="nft")
-    stickers = relationship("StickerORM", back_populates="nft")
+    gift_boxes = relationship("GiftBoxORM", back_populates="config")
+    sticker_boxes = relationship("StickerBoxORM", back_populates="config")
+    stickers = relationship("StickerORM", back_populates="config")
     openings = relationship(
-        "OpeningORM", foreign_keys="OpeningORM.nft_address", back_populates="nft"
+        "OpeningORM", foreign_keys="OpeningORM.nft_address", back_populates="config"
     )
     box_openings = relationship(
         "OpeningORM", foreign_keys="OpeningORM.box_address", back_populates="box"
     )
-    price_snapshots = relationship("PriceSnapshot", back_populates="nft")
+    price_snapshots = relationship("PriceSnapshot", back_populates="config")
 
     __table_args__ = (
         Index("idx_nfts_collection_owner", "collection_address", "owner_wallet_address"),

@@ -349,7 +349,7 @@ ui.loadWallets = async function(appState, domElements) {
     }
 
     // Fetch the list of wallets that were loaded
-    console.log('Fetching wallet list from backend...');
+    console.log('Fetching wallet list from api...');
     const walletsResponse = await api.fetchWallets();
     const walletsInDb = walletsResponse.wallets || [];
     console.log('Wallets in DB:', walletsInDb.length, walletsInDb);
@@ -441,10 +441,10 @@ async function apiGetBasket() {
   const resp = await fetch(`${API_URL}/basket/stickers`);
   if (!resp.ok) throw new Error('failed to fetch basket');
   const data = await resp.json();
-  // DEBUG: Log what backend sends
-  console.log('DEBUG: Raw data from /basket/stickers backend:', data);
+  // DEBUG: Log what api sends
+  console.log('DEBUG: Raw data from /basket/stickers api:', data);
   if (Array.isArray(data) && data.length > 0) {
-    console.log('DEBUG: First sticker from backend:', data[0]);
+    console.log('DEBUG: First sticker from api:', data[0]);
     console.log('DEBUG: Synergies field in first sticker:', data[0].synergies);
   }
   return data;
@@ -1327,7 +1327,7 @@ api.fetchWalletStickers = async function(walletAddress, basket = null) {
   try {
     let url = `${API_URL}/wallets/${encodeURIComponent(walletAddress)}/stickers`;
     if (basket === true) {
-      // use current basket adjustments from backend database
+      // use current basket adjustments from api database
       url += '?basket=true';
     }
     const resp = await fetch(url);

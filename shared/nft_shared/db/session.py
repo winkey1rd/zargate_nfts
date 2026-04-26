@@ -24,7 +24,7 @@ def build_session_factory(engine) -> async_sessionmaker[AsyncSession]:
     )
 
 
-# FastAPI dependency — импортируется в backend после инициализации engine
+# FastAPI dependency — импортируется в api после инициализации engine
 async def get_session(session_factory: async_sessionmaker[AsyncSession]) -> AsyncGenerator[AsyncSession, None]:
     async with session_factory() as session:
         yield session
