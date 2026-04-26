@@ -6,7 +6,7 @@ import logging
 
 from backend.nft.config import COLLECTIONS, COLLECTIONS_BY_ADDRESS
 from backend.app.models import OpeningORM, NftBaseORM
-from backend.app.crud.nft_repository import NftRepository
+from nft_shared.crud.nft_repository import NftRepository
 
 from backend.getgems import get_getgems_nft_history
 from backend.ton.api import get_event_details

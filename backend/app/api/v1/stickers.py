@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.app.crud.sticker_repository import StickerRepository
+from nft_shared.crud.sticker_repository import StickerRepository
 from backend.app.models import AttributeORM
 from backend.app.schemas.sticker import StickerResponse, StickerSchema, StickerValuesSchema
 from backend.utility import get_session

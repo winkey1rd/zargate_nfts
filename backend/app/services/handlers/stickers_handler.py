@@ -2,8 +2,8 @@ from typing import Dict, Any, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .base_handler import CollectionHandler
-from backend.app.crud.nft_repository import NftRepository
-from backend.app.crud.sticker_repository import StickerRepository
+from nft_shared.crud.nft_repository import NftRepository
+from nft_shared.crud.sticker_repository import StickerRepository
 from backend.app.models import AttributeORM, StickerORM
 
 from backend.utility.calculator import (

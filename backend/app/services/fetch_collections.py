@@ -4,7 +4,7 @@ import logging
 from backend.nft.config import COLLECTIONS, COLLECTIONS_BY_ADDRESS
 
 from backend.app.models import NftCollectionORM
-from backend.app.crud.nft_repository import NftRepository
+from nft_shared.crud.nft_repository import NftRepository
 from backend.ton.api import get_ton_collection_nft, get_ton_cursor, get_ton_items
 from backend.utility.calculator import get_attribute_values_for_collection
 

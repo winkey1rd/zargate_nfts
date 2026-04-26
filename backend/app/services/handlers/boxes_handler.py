@@ -2,7 +2,7 @@ from typing import Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .base_handler import CollectionHandler
-from backend.app.crud.nft_repository import NftRepository
+from nft_shared.crud.nft_repository import NftRepository
 from backend.app.models import GiftBoxORM, StickerBoxORM
 
 
