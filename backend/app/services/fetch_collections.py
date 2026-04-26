@@ -8,8 +8,8 @@ from backend.app.crud.nft_repository import NftRepository
 from backend.ton.api import get_ton_collection_nft, get_ton_cursor, get_ton_items
 from backend.utility.calculator import get_attribute_values_for_collection
 
-from .stickers_handler import StickersCollectionHandler
-from .boxes_handler import BoxesCollectionHandler
+from backend.app.services.handlers.stickers_handler import StickersCollectionHandler
+from backend.app.services.handlers.boxes_handler import BoxesCollectionHandler
 
 logger = logging.getLogger(__name__)
 

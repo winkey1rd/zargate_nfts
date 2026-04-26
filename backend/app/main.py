@@ -8,7 +8,7 @@ from starlette.responses import JSONResponse, RedirectResponse
 from api.v1 import core_router
 
 from backend.app.settings import settings
-from backend.logging import get_error
+from backend.app.core.logging import get_error
 
 
 @asynccontextmanager
