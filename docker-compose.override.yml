@@ -1,49 +1,43 @@
 services:
   postgres:
-    image: postgres:16-alpine
-    volumes: [postgres_data:/var/lib/postgresql/data]
-    env_file: .env
+    ports:
+      - "5432:5432"   # доступен с хоста для pgAdmin / psql
 
   redis:
-    image: redis:7-alpine
-    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"   # доступен с хоста для redis-cli
 
-  nginx:
-    image: nginx:alpine
-    ports: ["80:80", "443:443"]
-    depends_on: [backend, frontend, tma]
-    volumes: [./nginx:/etc/nginx/conf.d, ./certs:/etc/letsencrypt]
-
-  backend:
-    build: api
-    env_file: .env
-    depends_on: [postgres, redis]
-    # НЕ открывает порты — только через nginx
-
-  bot:
-    build: ./bot
-    env_file: .env
-    depends_on: [postgres]
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "${API_PORT:-8000}:${API_PORT:-8000}"
+    volumes:
+      - ./api/app:/app/app          # hot reload — изменения без пересборки
+      - ./shared/nft_shared:/shared/nft_shared
+    command: >
+      sh -c "uvicorn app.main:app
+             --host ${API_HOST:-0.0.0.0}
+             --port ${API_PORT:-8000}
+             --reload"
 
   fetcher:
-    build: ./fetcher
-    env_file: .env
-    depends_on: [postgres]
-    # interval и retry задаются в .env / config
+    volumes:
+      - ./fetcher/app:/app/app
+      - ./shared/nft_shared:/shared/nft_shared
+
+  bot:
+    volumes:
+      - ./bot/app:/app/app
+      - ./shared/nft_shared:/shared/nft_shared
 
   monitor:
-    build: ./monitor
-    env_file: .env
-    depends_on: [postgres]
-    # независим от api, только читает БД + пишет snapshots
+    volumes:
+      - ./monitor/app:/app/app
+      - ./shared/nft_shared:/shared/nft_shared
 
-  frontend:
-    build: ./frontend
-    # nginx отдаёт статику
-
-  tma:
-    build: ./tma
-    # nginx отдаёт статику на отдельном пути /tma/
-
-volumes:
-  postgres_data:
+  # В dev nginx не нужен — фронт и API доступны напрямую
+  nginx:
+    profiles:
+      - prod-only

@@ -1,25 +1,39 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from nft_shared.config.settings_base import DbSettings, _env_files
 
 
+class FetchSettings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_prefix="FETCH_",
+        extra="ignore",
+    )
+
+    interval_seconds: int = 3600
+    semaphore_size: int = 10
+
+
+class RetrySettings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_prefix="RETRY_",
+        extra="ignore",
+    )
+
+    seconds_429: int = 300      # rate limit от TON API
+    seconds_5xx: int = 30       # серверная ошибка
+    seconds_network: int = 5    # сетевая ошибка
+    max_attempts: int = 3
+
+
 class Settings(BaseSettings):
-    model_config = {"env_file": _env_files, "extra": "allow"}
+    model_config = SettingsConfigDict(
+        env_file=_env_files("fetcher/.env"),
+        extra="ignore",
+    )
 
     db: DbSettings = DbSettings()
-
-    # Интервалы запуска задач
-    fetch_interval_seconds: int = 3600      # полный fetch всех коллекций
-    price_check_interval_seconds: int = 300 # обновление цен через GetGems
-
-    # Параллельность
-    fetch_semaphore_size: int = 10          # макс. одновременных запросов к TON API
-
-    # Retry по типу ошибки
-    retry_429_seconds: int = 300            # rate limit от TON — ждём 5 минут
-    retry_5xx_seconds: int = 30            # серверная ошибка — ждём 30 секунд
-    retry_network_seconds: int = 5         # сетевая ошибка — ждём 5 секунд
-    retry_max_attempts: int = 3
+    fetch: FetchSettings = FetchSettings()
+    retry: RetrySettings = RetrySettings()
 
 
 settings = Settings()
